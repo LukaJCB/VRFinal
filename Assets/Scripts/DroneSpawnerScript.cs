@@ -30,16 +30,15 @@ public class DroneSpawnerScript : MonoBehaviour {
 		yield return new WaitForSeconds (2);
 		while (true) {
 			Vector3 spawnPosition = Random.insideUnitSphere* spawnRadius + target.position;
+			if (spawnPosition.y < 1){
+				spawnPosition.y = 3;
+			}
 			if (Vector3.Distance(spawnPosition, target.position) < minSpawnDistance){
 				spawnPosition = Vector3.Normalize(spawnPosition-target.position) * minSpawnDistance;
-			}
-			if (spawnPosition.y < 1){
-				spawnPosition.y = 1;
 			}
 			Instantiate(prefab, spawnPosition, Quaternion.LookRotation(target.position-spawnPosition));
 			yield return new WaitForSeconds (timeToSpawn);
 			timeToSpawn *= spawnRateIncrease;
-			Debug.Log(timeToSpawn);
 		}
 	}
 
