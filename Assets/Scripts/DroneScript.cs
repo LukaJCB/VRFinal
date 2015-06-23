@@ -6,10 +6,14 @@ public class DroneScript : MonoBehaviour {
 	public static Transform target;
 	public static Rigidbody prefab;
 	public static float shootingSpeed;
+	/*
+	 * AudioSource is now a part of the OSPAudioSource
+	 * */
+	public OSPAudioSource ospSource;
 
 	// Use this for initialization
 	void Start () {
-		float clipLength = this.GetComponent<AudioSource>().clip.length;
+		float clipLength = ospSource.GetComponent<AudioSource>().clip.length;
 		InvokeRepeating ("ChargeUp",0,3);
 		InvokeRepeating ("ShootTarget", clipLength, 3);
 	}
@@ -26,6 +30,9 @@ public class DroneScript : MonoBehaviour {
 	}
 
 	void ChargeUp(){
-		this.GetComponent<AudioSource> ().Play ();
+		// this.GetComponent<AudioSource> ().Play ();
+
+		// trigger osp audio source
+		ospSource.Play ();
 	}
 }
