@@ -2,30 +2,32 @@
 using System.Collections;
 
 public class DroneSpawnerScript : MonoBehaviour {
-
+	
 	public float spawnRate, spawnRateIncrease, shootingSpeed, spawnRadius, minSpawnDistance;
 	private float timeToSpawn;
-
+	
 	public Transform prefab;
 	public Transform target;
 	public Rigidbody projectile;
-
-
+	
+	private float count=1f;
+	
 	// Use this for initialization
 	void Start () {
-
+		
 		DroneScript.prefab = projectile;
 		DroneScript.target = target;
 		DroneScript.shootingSpeed = this.shootingSpeed;
 		timeToSpawn = 1 / spawnRate;
-		StartCoroutine (SpawnProcess());
+		StartCoroutine ("SpawnProcess");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(count > 2)
+			StopCoroutine("SpawnProcess");
 	}
-
+	
 	IEnumerator SpawnProcess(){
 		yield return new WaitForSeconds (2);
 		while (true) {
@@ -39,7 +41,8 @@ public class DroneSpawnerScript : MonoBehaviour {
 			Instantiate(prefab, spawnPosition, Quaternion.LookRotation(target.position-spawnPosition));
 			yield return new WaitForSeconds (timeToSpawn);
 			timeToSpawn *= spawnRateIncrease;
+			count++;
 		}
 	}
-
+	
 }

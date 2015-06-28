@@ -19,7 +19,9 @@ public class SixenseHand : MonoBehaviour
 
 	public GameObject[] lightnings;
 	private bool alreadyOn = true;
+	RaycastHit hit;
 
+	AudioSource destroyedAudio;
 
 	protected void Start() 
 	{
@@ -45,6 +47,14 @@ public class SixenseHand : MonoBehaviour
 		if (m_controller != null) {
 			if (m_controller.GetButton (SixenseButtons.TRIGGER)) {
 				shootLightning ();
+				if(Physics.Raycast(transform.position, transform.forward, out hit ,50)){
+					if(hit.collider.CompareTag("Drone")){
+						Debug.Log("Hit drone");
+						destroyedAudio = hit.collider.gameObject.GetComponent<AudioSource> ();
+						destroyedAudio.Play();
+						Destroy(hit.collider.gameObject);
+					}
+				}
 			} else {
 				stopLightning();
 			}

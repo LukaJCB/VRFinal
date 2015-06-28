@@ -8,7 +8,8 @@ public class LaserSword : MonoBehaviour
 	Vector3 m_initialPosition;
 	Vector3 m_baseOffset;
 	Quaternion m_initialRotation;
-	
+
+	AudioSource audio;
 	bool 	m_bInitialized;
 
 	// Use this for initialization
@@ -17,6 +18,8 @@ public class LaserSword : MonoBehaviour
 		m_initialRotation = transform.localRotation;
 		m_initialPosition = transform.localPosition;
 		m_baseOffset = transform.position;
+		audio = GetComponent<AudioSource> ();
+		audio.Play ();
 	}
 	
 	// Update is called once per frame
