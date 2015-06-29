@@ -18,10 +18,7 @@ public class SixenseHand : MonoBehaviour
 	Quaternion 	m_initialRotation;
 
 	public GameObject[] lightnings;
-	private bool alreadyOn = true;
 	RaycastHit hit;
-
-	AudioSource destroyedAudio;
 
 	protected void Start() 
 	{
@@ -50,9 +47,7 @@ public class SixenseHand : MonoBehaviour
 				if(Physics.Raycast(transform.position, transform.forward, out hit ,50)){
 					if(hit.collider.CompareTag("Drone")){
 						Debug.Log("Hit drone");
-						destroyedAudio = hit.collider.gameObject.GetComponent<AudioSource> ();
-						destroyedAudio.Play();
-						Destroy(hit.collider.gameObject);
+						hit.collider.gameObject.SendMessage("OnDestroy");
 					}
 				}
 			} else {
