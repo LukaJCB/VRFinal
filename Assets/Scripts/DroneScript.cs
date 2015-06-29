@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DroneScript : MonoBehaviour {
@@ -16,10 +16,11 @@ public class DroneScript : MonoBehaviour {
 	 * AudioSource is now a part of the OSPAudioSource
 	 * */
 	public OSPAudioSource ospSource;
+	public AudioClip shootSound, destroySound;
 	
 	// Use this for initialization
 	void Start () {
-		float clipLength = ospSource.GetComponent<AudioSource>().clip.length;
+		float clipLength = shootSound.length;
 		InvokeRepeating ("ChargeUp",0,3);
 		InvokeRepeating ("ShootTarget", clipLength, 3);
 		newDestination ();
@@ -56,11 +57,18 @@ public class DroneScript : MonoBehaviour {
 		// this.GetComponent<AudioSource> ().Play ();
 		
 		// trigger osp audio source
+		ospSource.GetComponent<AudioSource> ().clip = shootSound;
 		ospSource.Play ();
 	}
 	
 	void newDestination()
 	{ 
 		destination = Random.insideUnitSphere*20;
+	}
+
+	void OnDestroy(){
+		ospSource.GetComponent<AudioSource> ().clip = destroySound;
+		ospSource.Play ();
+		Destroy (this.gameObject);
 	}
 }
